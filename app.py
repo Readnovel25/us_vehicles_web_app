@@ -8,7 +8,7 @@ import plotly.express as px
 # Web App Header
 st.header('Market of Used Cars')
 # Allow user to filter the data
-st.write('Filter the data below to see the ads by manufacturer and cylinders')
+st.write('Filter the data below to see the ads by manufacturer and cylinder engine')
 
 # Read the data into a dataframe
 df = pd.read_csv('vehicles_us.csv')
@@ -55,3 +55,13 @@ df['model'] = df['model'].replace(replacements)
 manufacturer_names = df['manufacturer'].unique()
 
 selected_manufacturer = st.selectbox('Select a manufacturer', manufacturer_names)
+
+# Get the cylinders
+cylinders_choice = df['cylinders'].unique()
+selected_cylinder = st.selectbox('Select a cylinder engine', cylinders_choice)
+
+# Filter the data according to user's choices
+df_filtered = df[(df.manufacturer == selected_manufacturer) & (df.cylinders == selected_cylinder)]
+
+# Show filtered dataframe
+df_filtered
