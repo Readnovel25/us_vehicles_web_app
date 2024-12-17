@@ -1,18 +1,19 @@
-# -------------------------------- Import libraries --------------------------------
+# -------------------------------- Import libraries -------------------------------- #
 import pandas as pd
 import numpy as np
 import streamlit as st
 import plotly.express as px
-# -------------------------------- End of imports --------------------------------
+# -------------------------------- End of imports -------------------------------- #
 
-# Web app start
-st.header('Market of used cars')
-st.write('Filter the data below to see the ads by manufacturer')
+# Web App Header
+st.header('Market of Used Cars')
+# Allow user to filter the data
+st.write('Filter the data below to see the ads by manufacturer and cylinders')
 
 # Read the data into a dataframe
 df = pd.read_csv('vehicles_us.csv')
 
-# -------------------------------- Process the data --------------------------------
+# -------------------------------- Process the data -------------------------------- #
 # Add a manufacturer column to the dataframe
 df['manufacturer'] = df['model'].apply(lambda x: x.split()[0])
 df.insert(3, 'manufacturer', df.pop('manufacturer'))
@@ -34,3 +35,23 @@ df['odometer'] = df.groupby('model')['odometer'].transform(lambda x: x.fillna(x.
 
 # Replace remaining missing odometer values with the median odometer value for each cylinder type
 df['odometer'] = df.groupby('cylinders')['odometer'].transform(lambda x: x.fillna(x.median()))
+
+# Create dictionary of values to replace
+replacements = {
+    'ford f150': 'ford f-150',
+    'ford f250': 'ford f-250',
+    'ford f350': 'ford f-350',
+    'ford f250 super duty': 'ford f-250 sd',
+    'ford f-250 super duty': 'ford f-250 sd',
+    'ford f350 super duty': 'ford f-350 sd',
+}
+
+# Replace values in dataframe
+df['model'] = df['model'].replace(replacements)
+# -------------------------------- End of Data Processing -------------------------------- #
+
+# -------------------------------- Start of Web App -------------------------------- #
+# Get the manufacturers
+manufacturer_names = df['manufacturer'].unique()
+
+selected_manufacturer = st.selectbox('Select a manufacturer', manufacturer_names)
