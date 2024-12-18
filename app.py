@@ -57,7 +57,7 @@ manufacturer_names = df['manufacturer'].unique()
 selected_manufacturer = st.selectbox('Select a manufacturer', manufacturer_names)
 
 # Get the cylinders
-cylinders_choice = df['cylinders'].unique()
+cylinders_choice = df['cylinders'].unique().sort()
 selected_cylinder = st.selectbox('Select a cylinder engine', cylinders_choice)
 
 # Filter the data according to user's choices
@@ -65,3 +65,17 @@ df_filtered = df[(df.manufacturer == selected_manufacturer) & (df.cylinders == s
 
 # Show filtered dataframe
 df_filtered
+
+# Price Analysis
+st.header('Price Analysis')
+st.write("""
+### What factor influences the price the most?
+         Let's check how distribution of price varies depending on transmission, type, cylinder engine, condition
+""")
+
+hist_variables = ['transmission', 'type', 'cylinders', 'condition']
+selected_factor = st.selectbox('Split for price distribution', hist_variables)
+
+fig1 = px.histogram(df, x="price", color=selected_factor)
+fig1.update_layout(title= "<b> Split of price by {}</b>".format(selected_factor))
+st.plotly_chart(fig1)
