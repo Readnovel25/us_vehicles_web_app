@@ -57,7 +57,7 @@ manufacturer_names = df['manufacturer'].unique()
 selected_manufacturer = st.selectbox('Select a manufacturer', manufacturer_names)
 
 # Get the cylinders
-cylinders_choice = df['cylinders'].unique().sort()
+cylinders_choice = df['cylinders'].unique()
 selected_cylinder = st.selectbox('Select a cylinder engine', cylinders_choice)
 
 # Filter the data according to user's choices
@@ -70,12 +70,31 @@ df_filtered
 st.header('Price Analysis')
 st.write("""
 ### What factor influences the price the most?
-         Let's check how distribution of price varies depending on transmission, type, cylinder engine, condition
+         Let's check how distribution of price varies depending on transmission, type, fuel type, condition, and paint color
 """)
 
-hist_variables = ['transmission', 'type', 'cylinders', 'condition']
+hist_variables = ['transmission', 'type', 'fuel', 'condition', 'paint_color']
 selected_factor = st.selectbox('Split for price distribution', hist_variables)
 
 fig1 = px.histogram(df, x="price", color=selected_factor)
 fig1.update_layout(title= "<b> Split of price by {}</b>".format(selected_factor))
 st.plotly_chart(fig1)
+
+# Scatterplot based on numerical variables
+def age_category(x):
+    if x<5: return '<5'
+    elif  x>=5 and x<10: return '5-10'
+    elif x>=10 and x<20: return '10-20'
+    else: return '>20'
+
+df['age'] = 2024 - df['model_year']
+
+df['age_category'] = df['age'].apply(age_category)
+
+scatter_variables = ['odometer', 'cylinders', 'days_listed']
+
+choice_for_scatter = st.selectbox('Price dependency on', scatter_variables)
+
+fig2 = px.scatter(df, x="price_usd", y=choice_for_scatter, color="age_category", hover_data=['model_year'])
+fig2.update_layout(title="<b> Price vs {}</b>".format(choice_for_scatter))
+st.plotly_chart(fig2)
