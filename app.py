@@ -69,10 +69,11 @@ df_filtered
 # Price Analysis
 st.header('Price Analysis')
 st.write("""
-###### What factor influences the price the most? Let's check how distribution of price varies depending on transmission, type, fuel type, condition, and paint color
+###### What factor influences the price the most? 
+###### Let's check how distribution of price varies depending on transmission, type, fuel type, cylinder engine, condition, and paint color
 """)
 
-hist_variables = ['transmission', 'type', 'fuel', 'condition', 'paint_color']
+hist_variables = ['transmission', 'type', 'fuel', 'cylinders', 'condition', 'paint_color']
 selected_factor = st.selectbox('Split for price distribution', hist_variables)
 
 fig1 = px.histogram(df, x="price", color=selected_factor)
@@ -90,7 +91,7 @@ df['age'] = 2024 - df['model_year']
 
 df['age_category'] = df['age'].apply(age_category)
 
-scatter_variables = ['odometer', 'cylinders', 'days_listed']
+scatter_variables = ['odometer', 'days_listed']
 
 choice_for_scatter = st.selectbox('Price dependency on', scatter_variables)
 
