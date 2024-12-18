@@ -57,7 +57,7 @@ manufacturer_names = df['manufacturer'].unique()
 selected_manufacturer = st.selectbox('Select a manufacturer', manufacturer_names)
 
 # Get the cylinders
-cylinders_choice = df['cylinders'].unique()
+cylinders_choice = np.sort(df['cylinders'].unique())
 selected_cylinder = st.selectbox('Select a cylinder engine', cylinders_choice)
 
 # Filter the data according to user's choices
@@ -69,8 +69,7 @@ df_filtered
 # Price Analysis
 st.header('Price Analysis')
 st.write("""
-### What factor influences the price the most?
-         Let's check how distribution of price varies depending on transmission, type, fuel type, condition, and paint color
+###### What factor influences the price the most? Let's check how distribution of price varies depending on transmission, type, fuel type, condition, and paint color
 """)
 
 hist_variables = ['transmission', 'type', 'fuel', 'condition', 'paint_color']
@@ -95,6 +94,6 @@ scatter_variables = ['odometer', 'cylinders', 'days_listed']
 
 choice_for_scatter = st.selectbox('Price dependency on', scatter_variables)
 
-fig2 = px.scatter(df, x="price_usd", y=choice_for_scatter, color="age_category", hover_data=['model_year'])
+fig2 = px.scatter(df, x="price", y=choice_for_scatter, color="age_category", hover_data=['model_year'])
 fig2.update_layout(title="<b> Price vs {}</b>".format(choice_for_scatter))
 st.plotly_chart(fig2)
