@@ -25,4 +25,5 @@ Once you've cleaned up the data and chosen the plots/visuals, you can start buil
 To deploy your app locally, run the `streamlit run app.py` command from the terminal.
 
 [Script for app](app.py)
+
 [Live web app](https://us-vehicles-web-app.onrender.com)
