@@ -82,10 +82,14 @@ st.plotly_chart(fig1)
 
 # Scatterplot based on numerical variables
 def age_category(x):
-    if x<5: return '<5'
-    elif  x>=5 and x<10: return '5-10'
-    elif x>=10 and x<20: return '10-20'
-    else: return '>20'
+    if x<5:
+        return '<5'
+    elif  x>=5 and x<10:
+        return '5-10'
+    elif x>=10 and x<20:
+        return '10-20'
+    else:
+        return '>20'
 
 df['age'] = 2024 - df['model_year']
 
